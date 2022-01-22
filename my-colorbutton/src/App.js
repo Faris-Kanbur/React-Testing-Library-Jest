@@ -1,5 +1,9 @@
-import './App.css';
 import {useState} from "react";
+import './App.css';
+
+export function replacaCameWithSpaces(colorName) {
+  return colorName.replace(/\B([A-Z])\B/g, ' $1');
+};
 
 
 function App() {
