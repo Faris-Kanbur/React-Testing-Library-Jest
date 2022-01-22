@@ -4,3 +4,16 @@
   box-sizing: border-box;
   font-family: "Lato";
 }
+
+.Style {
+  margin-top: 20%;
+  background-color: aqua;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+
+
+
+}
