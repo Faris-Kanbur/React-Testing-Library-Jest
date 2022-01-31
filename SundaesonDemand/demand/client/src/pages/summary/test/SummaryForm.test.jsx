@@ -54,7 +54,7 @@ test("popover responds to hover", async () => {
   const popover = screen.getByText(/no ice cream will actually be delivered/i);
   expect(popover).toBeInTheDocument();
 
-  //popover dissapears wwn we mouser out
+  //popover dissapears when we mouser out
   userEvent.unhover(termsAndConditions);
   waitForElementToBeRemoved(() =>
     screen.queryByText(/no ice cream will actually be delivered/i)
