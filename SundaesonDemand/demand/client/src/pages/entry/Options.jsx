@@ -1,32 +1,30 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import Row from "react-bootstrap/Row";
-import ScoopOption from "./ScoopOptions";
+import ScoopOption from "./ScoopOption";
+import ToppingOption from "./ToppingOption";
 
-export default function Options(optionsType) {
+export default function Options({ optionType }) {
   const [items, setItems] = useState([]);
-  // optiosType is 'scoops' or 'toppings'
 
+  // optiosType is 'scoops' or 'toppings'
   //when you are wating for samothing to apper asynchronously on the page you must use await findBy
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3030/${optionsType}`)
+      .get(`http://localhost:3030/${optionType}`)
       .then((response) => setItems(response.data))
-      .catch((error) => {
-        //TODO: handle error response
-      });
-  }, [optionsType]);
+      .catch((error) => setError(true));
+  }, [optionType]);
 
-  //TODO: replaca 'null' with 'ToppingOption' when available
-  const ItemComponent = optionsType === "scoops" ? ScoopOption : null;
+  const ItemComponent = optionType === "scoops" ? ScoopOption : ToppingOption;
 
-  const optionsItem = items.map((item) => (
+  const optionItems = items.map((item) => (
     <ItemComponent
       key={item.name}
       name={item.name}
       imagePath={item.imagePath}
     />
   ));
-  return <Row>{ItemComponent}</Row>;
+  return <Row>{optionItems}</Row>;
 }
