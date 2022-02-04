@@ -15,7 +15,7 @@ test("Handles errors for scoops and toppings routes", async () => {
     )
   );
   render(<OrderEntry />);
-
+// add "await"
   waitFor(async () => {
     const alerts = await screen.findAllByRole("alert", {
       name: "An unexpected error ocurred. Please try again later",
