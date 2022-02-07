@@ -1,21 +1,18 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "../../../test-utils/testing-library-utils";
+import userEvent from "@testing-library/user-event";
 
 import Options from "../Options";
 
-test("Display image for each scoop options from server", async () => {
+test("displays image for each scoop option from server", async () => {
   render(<Options optionType="scoops" />);
 
-  //find image
-  // more than one image so that i get "getAllByRole" but here is connections are almost always asynchronous so we are going use "findAllByRole"
-  const scoopImages = await screen.findAllByRole("img", {
-    name: /scoop$/i,
-  });
+  // find images
+  const scoopImages = await screen.findAllByRole("img", { name: /scoop$/i });
   expect(scoopImages).toHaveLength(2);
 
-  //confirm alt text of image
-  const altText = scoopImages.map((img) => img.alt);
-
-  //we are going to get array of object so we write "toEqual"
+  // confirm alt text of images
+  // @ts-ignore
+  const altText = scoopImages.map((element) => element.alt);
   expect(altText).toEqual(["Chocolate scoop", "Vanilla scoop"]);
 });
 
@@ -35,4 +32,19 @@ test("Displays image for each toppings option from server", async () => {
     "M&Ms topping",
     "Hot fudge topping",
   ]);
+});
+
+test("don't update total if scoops input is invalid", async () => {
+  render(<Options optionType="scoops" />);
+
+  // expect button to be enabled after adding scoop
+  const vanillaInput = await screen.findByRole("spinbutton", {
+    name: "Vanilla",
+  });
+  userEvent.clear(vanillaInput);
+  userEvent.type(vanillaInput, "-1");
+
+  // make sure scoops subtotal hasn't updated
+  const scoopsSubtotal = screen.getByText("Scoops total: $0.00");
+  expect(scoopsSubtotal).toBeInTheDocument();
 });

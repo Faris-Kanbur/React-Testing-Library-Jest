@@ -1,25 +1,30 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { rest } from "msw";
-import { server } from "../../../mocks/server";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import ScoopOption from "../ScoopOption";
 
-import OrderEntry from "../OrderEntry";
+test.only("indicate if scoop count is non-int or out of range", async () => {
+  render(<ScoopOption name="" imagePath="" updateItemCount={jest.fn()} />);
 
-test("Handles errors for scoops and toppings routes", async () => {
-  //This function accepts an optional list of request handlers to override the initial handlers to re-declare the mock definition completely on runtime.
-  server.resetHandlers(
-    rest.get("http://localhost:3030/scoops", (req, res, ctx) =>
-      res(ctx.status(500))
-    ),
-    rest.get("http://localhost:3030/toppings", (req, res, ctx) =>
-      res(ctx.status(500))
-    )
-  );
-  render(<OrderEntry />);
-// add "await"
-  waitFor(async () => {
-    const alerts = await screen.findAllByRole("alert", {
-      name: "An unexpected error ocurred. Please try again later",
-    });
-    expect(alerts).toHaveLength(2);
-  });
+  // expect input to be invalid with negative number
+  const vanillaInput = screen.getByRole("spinbutton");
+  userEvent.clear(vanillaInput);
+  userEvent.type(vanillaInput, "-1");
+  expect(vanillaInput).toHaveClass("is-invalid");
+
+  // replace with decimal input
+  userEvent.clear(vanillaInput);
+  userEvent.type(vanillaInput, "2.5");
+  expect(vanillaInput).toHaveClass("is-invalid");
+
+  // replace with input that's too high
+  userEvent.clear(vanillaInput);
+  userEvent.type(vanillaInput, "11");
+  expect(vanillaInput).toHaveClass("is-invalid");
+
+  // replace with valid input
+  // note: here we're testing our validation rules (namely that the input can display as valid)
+  // and not react-bootstrap's response
+  userEvent.clear(vanillaInput);
+  userEvent.type(vanillaInput, "3");
+  expect(vanillaInput).not.toHaveClass("is-invalid");
 });
