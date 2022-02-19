@@ -5,12 +5,13 @@
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
-    "axios": "^0.21.4",
-    "bootstrap": "^5.1.3",
+    "@testing-library/user-event": "^12.6.0",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.5.3",
     "react": "^17.0.1",
-    "react-bootstrap": "^1.6.4",
+    "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
-    "react-scripts": "^5.0.0",
+    "react-scripts": "4.0.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -32,11 +33,8 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/dom": "^8.11.3",
-    "@testing-library/user-event": "^13.5.0",
     "eslint-plugin-jest-dom": "^3.6.4",
     "eslint-plugin-testing-library": "^3.10.1",
-    "jest-watch-typeahead": "^0.6.5",
-    "msw": "^0.24.4"
+    "msw": "^0.24.2"
   }
 }
